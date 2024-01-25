@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CooperativeService {
@@ -23,13 +24,11 @@ public class CooperativeService {
     UserRepository userRepository;
 
 
-
-    @Secured("ROLE_USER")
+    //@Secured("ROLE_USER")
     @Transactional
     public List<Cooperative> getCooperatives() {
         return cooperativeRepository.findAll();
     }
-
 
 
     @Transactional
@@ -37,11 +36,6 @@ public class CooperativeService {
         cooperativeRepository.save(cooperative);
 
     }
-
-
-
-
-
 
 
     @Transactional
@@ -55,28 +49,18 @@ public class CooperativeService {
     }
 
 
-/*
-    @Transactional
-    public Cooperative getUserCooperative(Long userId) {
-        User user = userRepository.findById(userId).get();
-        return user.getCooperative();
-    }
-*/
+    /*
+        @Transactional
+        public Cooperative getUserCooperative(Long userId) {
+            User user = userRepository.findById(userId).get();
+            return user.getCooperative();
+        }
+    */
     @Transactional
     public Cooperative getUserCooperative(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         return user.getCooperative();
     }
-
-
-
-
-
-
-
-
-
-
 
 
     @Transactional
@@ -85,6 +69,7 @@ public class CooperativeService {
         return user.getApplications();
     }
 
+
     @Transactional
     public List<Cooperative> getUnprocessedApplications() {
         List<Cooperative> cooperatives = cooperativeRepository.findAll();
@@ -92,6 +77,13 @@ public class CooperativeService {
         return cooperatives;
     }
 
+
+
+
+
+
+
+    /*
     @Transactional
     public void approveApplication(Integer cooperativeId, Long userId, String notes) {
         Cooperative cooperative = cooperativeRepository.findById(cooperativeId).orElseThrow();
@@ -126,7 +118,6 @@ public class CooperativeService {
 
 
 
-
     @Transactional
     public void rejectApplication(Integer cooperativeId, Long userId, String notes) {
         Cooperative cooperative = cooperativeRepository.findById(cooperativeId).orElseThrow();
@@ -138,4 +129,91 @@ public class CooperativeService {
         user.rejectApplication(cooperative);
         userRepository.save(user);
     }
+}
+*/
+
+
+    @Transactional
+    public void approveApplication(Long userId, Integer cooperativeId, String notes) {
+        Cooperative cooperative = cooperativeRepository.findById(cooperativeId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+        // Set notes and change status without updating user_id
+        cooperative.setNotes(notes);
+        cooperative.setEstatus(Status.APPROVED);
+
+
+        cooperativeRepository.save(cooperative);
+        user.approveApplication(cooperative);
+
+    }
+
+
+
+
+
+
+    /*
+
+    @Transactional
+    public void approveApplication(Long userId, Integer cooperativeId, String notes) {
+        Cooperative cooperative = cooperativeRepository.findById(cooperativeId).orElseThrow();
+
+        // Set notes and change status without updating user_id
+        cooperative.setNotes(notes);
+        cooperative.setEstatus(Status.APPROVED);
+
+
+        cooperativeRepository.save(cooperative);
+
+    }
+  */
+
+    @Transactional
+    public void rejectApplication(Long userId, Integer cooperativeId, String notes) {
+        Cooperative cooperative = cooperativeRepository.findById(cooperativeId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+        // Set notes and change status without updating user_id
+        cooperative.setNotes(notes);
+        cooperative.setEstatus(Status.REJECTED);
+
+
+        cooperativeRepository.save(cooperative);
+        user.rejectApplication(cooperative);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+    @Transactional
+    public List<Cooperative> getCooperativesForUser(Long userId) {
+
+        return cooperativeRepository.findByUserId(userId);
+    }
+
+
+    @Transactional
+    public List<Cooperative> getCooperativesDetailsForUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return user.getApplications();
+    }
+
+
+
 }

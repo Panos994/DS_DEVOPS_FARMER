@@ -67,6 +67,8 @@ public class AuthController {
             roleRepository.save(new role("ROLE_USER"));
             return null;
         });
+
+
     }
 
     @PostMapping("/signin")

@@ -7,18 +7,25 @@ import gr.hua.agricoop.entity.role;
 import gr.hua.agricoop.repository.RoleRepository;
 import gr.hua.agricoop.repository.UserRepository;
 import gr.hua.agricoop.service.CooperativeService;
+import gr.hua.agricoop.service.UserDetailsImpl;
 import gr.hua.agricoop.service.UserService;
 import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,6 +50,8 @@ public class UserController {
     public List<User> showUsers() {
         return userService.getUsers();
     }
+
+
     //OK
 
     @PostMapping("/new/add")
@@ -133,6 +142,12 @@ public class UserController {
         return "Check application for employee_id: " + user_id + ", cooperative_id: " + cooperative_id;
     }
 
+
+
+
+
+
+/*17.1
     // OK but I can only approve them
     @Secured("ROLE_MODERATOR")
     @PostMapping("/employee/{user_id}/{cooperative_id}/check/submit")
@@ -145,6 +160,64 @@ public class UserController {
         cooperativeService.approveApplication(cooperative_id, user_id, notes);
         return cooperativeService.getProcessedApplications(user_id);
     }
+
+
+
+    //
+    @PostMapping("/employee/{user_id}/{cooperative_id}/check/submit-reject")
+    public List<Cooperative> submitApplicationCheckReject(
+            @PathVariable Long user_id,
+            @PathVariable Integer cooperative_id,
+            @RequestBody Map<String, String> requestBody
+    ) {
+        String notes = requestBody.get("notes");
+
+        // Use the rejectApplication method from cooperativeService
+        cooperativeService.rejectApplication(cooperative_id, user_id, notes);
+
+        // Return the updated list of processed applications
+        return cooperativeService.getProcessedApplications(user_id);
+    }
+
+
+*/
+@Secured("ROLE_MODERATOR")
+@PostMapping("/employee/{user_id}/{cooperative_id}/check/submit")
+public List<Cooperative> submitApplicationCheck(
+        @PathVariable Long user_id,
+        @PathVariable Integer cooperative_id,
+        @RequestBody Map<String, String> requestBody
+) {
+    String notes = requestBody.get("notes");
+    cooperativeService.approveApplication(user_id, cooperative_id, notes);
+    return cooperativeService.getProcessedApplications(user_id);
+}
+
+
+
+
+    @PostMapping("/employee/{user_id}/{cooperative_id}/check/submit-reject")
+    public List<Cooperative> submitApplicationCheckReject(
+            @PathVariable Long user_id,
+            @PathVariable Integer cooperative_id,
+            @RequestBody Map<String, String> requestBody
+    ) {
+        String notes = requestBody.get("notes");
+        cooperativeService.rejectApplication(user_id, cooperative_id, notes);
+        return cooperativeService.getProcessedApplications(user_id);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,6 +254,27 @@ public class UserController {
 
         return ResponseEntity.ok(user);  // Return the updated user as JSON
     }
+
+
+
+
+
+
+    ////11.1
+
+
+    @GetMapping("/{userId}/roles")
+    public ResponseEntity<Set<Integer>> getUserRoleIds(@PathVariable Long userId) {
+        Set<Integer> roleIds = userService.getRoleIdsByUserId(userId);
+        return ResponseEntity.ok(roleIds);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<Set<Integer>> getUserRoleIds(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getId();
+        Set<Integer> roleIds = userService.getRoleIdsByUserId(userId);
+        return ResponseEntity.ok(roleIds);
+    }
 }
 
 
@@ -205,7 +299,7 @@ public class UserController {
 
 
 /*
-
+ignore
     @Autowired
     private UserService userService;
 

@@ -23,10 +23,28 @@ public class Cooperative {
     @Column
     private String vat;
 
+    @Column
+    private String product_name;
+
+    @Column
+    private String product_category;
+
+    @Column
+    private String cultivation_city;
+
+    @Column
+    private String cultivation_address;
+
+    @Column
+    private String cultivation_street_number;
+
     private Status estatus;
 
     @Column
     private String status;
+
+    @Column
+    private String members;
 
     @Column
     private String notes;
@@ -59,11 +77,6 @@ public class Cooperative {
     }
 
 
-    @OneToMany(mappedBy = "cooperative", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Product> products;
-    @JsonIgnore
-    @OneToMany(mappedBy = "cooperative", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<CultivationLocation> cultivationLocations;
 
     public Cooperative() {
         this.estatus = Status.PROCESSING;
@@ -71,10 +84,52 @@ public class Cooperative {
         this.notes = "";
     }
 
-    public Cooperative(String name, String vat) {
+    public Cooperative(String name, String vat,String product_name, String product_category, String cultivation_city, String cultivation_address, String cultivation_street_number, String members) {
         this();
         this.name = name;
         this.vat = vat;
+        this.product_name = product_name;
+        this.product_category = product_category;
+        this.cultivation_city = cultivation_city;
+        this.cultivation_address = cultivation_address;
+        this.cultivation_street_number = cultivation_street_number;
+        this.members = members;
+
+
+
+
+    }
+
+    public String getMembers() {
+        return members;
+    }
+
+    public void setMembers(String members) {
+        this.members = members;
+    }
+
+    public String getCultivation_city() {
+        return cultivation_city;
+    }
+
+    public void setCultivation_city(String cultivation_city) {
+        this.cultivation_city = cultivation_city;
+    }
+
+    public String getCultivation_address() {
+        return cultivation_address;
+    }
+
+    public void setCultivation_address(String cultivation_address) {
+        this.cultivation_address = cultivation_address;
+    }
+
+    public String getCultivation_street_number() {
+        return cultivation_street_number;
+    }
+
+    public void setCultivation_street_number(String cultivation_street_number) {
+        this.cultivation_street_number = cultivation_street_number;
     }
 
     public Integer getId() {
@@ -125,6 +180,22 @@ public class Cooperative {
         this.notes = notes;
     }
 
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
+    public String getProduct_category() {
+        return product_category;
+    }
+
+    public void setProduct_category(String product_category) {
+        this.product_category = product_category;
+    }
+
     public User getUser() {
         return user;
     }
@@ -151,21 +222,7 @@ public class Cooperative {
         this.users = users;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public List<CultivationLocation> getCultivationLocations() {
-        return cultivationLocations;
-    }
-
-    public void setCultivationLocations(List<CultivationLocation> cultivationLocations) {
-        this.cultivationLocations = cultivationLocations;
-    }
 
 
 
@@ -189,21 +246,7 @@ public class Cooperative {
         users.remove(user);
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
-    }
 
-    public void removeProduct(Product product) {
-        products.remove(product);
-    }
-
-    public void addCultivationLocation(CultivationLocation cultivationLocation) {
-        cultivationLocations.add(cultivationLocation);
-    }
-
-    public void removeCultivationLocation(CultivationLocation cultivationLocation) {
-        cultivationLocations.remove(cultivationLocation);
-    }
 
     public String check() {
         if (estatus == Status.APPROVED) {
@@ -211,19 +254,14 @@ public class Cooperative {
         } else if (estatus == Status.REJECTED) {
             return "Application already rejected.";
         }
-        if (!(users.isEmpty() || products.isEmpty() || cultivationLocations.isEmpty()) && vatIsValid()) {
+        if (!(users.isEmpty()  && vatIsValid())) {
             return "Application is valid.";
         } else {
             String checkResult = "Application has:\n";
             if (users.isEmpty()) {
                 checkResult += "\t- Less than 1 member\n";
             }
-            if (products.isEmpty()) {
-                checkResult += "\t- Less than 1 product\n";
-            }
-            if (cultivationLocations.isEmpty()) {
-                checkResult += "\t- Less than 1 cultivation location\n";
-            }
+
             if (!vatIsValid()) {
                 checkResult += "\t- Invalid VAT number";
             }
@@ -264,12 +302,7 @@ public class Cooperative {
         for (User user : users) {
             user.setCooperative(null);
         }
-        for (Product product : products) {
-            product.setCooperative(null);
-        }
-        for (CultivationLocation cultivationLocation : cultivationLocations) {
-            cultivationLocation.setCooperative(null);
-        }
+
     }
 
 

@@ -1,14 +1,8 @@
 package gr.hua.agricoop.rest;
 
 import gr.hua.agricoop.entity.Cooperative;
-import gr.hua.agricoop.entity.CultivationLocation;
-import gr.hua.agricoop.entity.Product;
 import gr.hua.agricoop.entity.User;
 import gr.hua.agricoop.service.*;
-import jakarta.transaction.Transactional;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -29,18 +23,15 @@ public class CooperativeRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ProductService productService;
 
-    @Autowired
-    private CultivationLocationService cultivationLocationService;
 
-    //OK -- Vasika an gemizei to user_id gia kapoion logo sto Table cooperative me addUser as poume
-    //den mou tous emfanizei
+    //OK -- oxi akrivos
+    //εξηγηση τι συμβαινει που εψαξα:
+    //Οταν μπαινει μετα απο καποιες μεθοδους το cooperative_id στo εξής μόνο table : product
+    // τοτε δεν δουλευει ! Ενώ ας πούμε στο cultivation location που το βαζω μετά απο μεθόδους
+    //δουλεύειn
 
-    //Οταν μπαινει μετα απο καποιες μεθοδους το cooperative_id στα εξής μόνο tables : product και
-    //users τοτε δεν δουλευει ! Ενώ ας πούμε στο cultivation location που το βαζω μετά απο μεθόδους
-    //δουλεύει
+
     @Secured("ROLE_MODERATOR")
     @GetMapping("")
     public List<Cooperative> showCooperatives() {
@@ -53,7 +44,7 @@ public class CooperativeRestController {
 
 
     //OK
-    @Secured("ROLE_USER")
+    @Secured("ROLE_MODERATOR")
     @GetMapping("{cooperative_id}")
     public Cooperative getCooperative(@PathVariable Integer cooperative_id) {
 
@@ -78,7 +69,7 @@ public class CooperativeRestController {
 
      */
     //OK
-    @Secured("ROLE_USER")
+    //@Secured("ROLE_MODERATOR")
     @PutMapping("{cooperative_id}")
     public Cooperative editCooperative(@PathVariable Integer cooperative_id, @RequestBody Cooperative updatedCooperative) {
         Cooperative existingCooperative = cooperativeService.getCooperative(cooperative_id);
@@ -99,7 +90,7 @@ public class CooperativeRestController {
 
 
 
-    //OK -- δεν νομιζω οτι χρειαζεται
+    //OK ignore-- δεν νομιζω οτι χρειαζεται
     @PostMapping("/temp")
     public String saveCooperative(@RequestBody Cooperative cooperative)  {
         cooperativeService.saveCooperative(cooperative);
@@ -117,7 +108,7 @@ public class CooperativeRestController {
 
 */
 
-    @Secured("ROLE_USER")
+    //@Secured("ROLE_USER")
     @PostMapping("/new")
     public List<Cooperative> saveCooperative(@RequestBody Cooperative cooperative, Model model) {
         // Retrieve the current user from the security context
@@ -143,29 +134,28 @@ public class CooperativeRestController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //OK
-    @Secured("ROLE_USER")
+    @Secured("ROLE_MODERATOR")
     @DeleteMapping("{cooperative_id}")
     public List<Cooperative> deleteCooperative(@PathVariable Integer cooperative_id) {
         cooperativeService.deleteCooperative(cooperative_id);
         return cooperativeService.getCooperatives();
     }
+
+
+
+
+
+ //-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,6 +171,7 @@ public class CooperativeRestController {
     //OK -- πρωτα χρησιμοποιεις την add_user πιο κατω restController method ή επισης εφτιαξα
     //αυτοματα αν κανει ενας με ROLE_USER sign in και κανει saveCooperative καταχωρειτε το user_id
     //στο table του cooperative
+    //den xreiazetai ignore paidia
     @GetMapping("/user/{user_id}")
     public ResponseEntity<Cooperative> getUserCooperative(@PathVariable Long user_id) {
         Cooperative cooperative = cooperativeService.getUserCooperative(user_id);
@@ -198,8 +189,7 @@ public class CooperativeRestController {
 
 
     //ΝΟΤ ΟΚ -- να την βγαλω ? Την χρειαζόμαστε αφού θα το βλέπουμε μέσω του User που εχει κανει αιτηση (με ROLE_USER δικαιωμα εν ολιγοις ο farmer εννοειται)
-    // δηλαδη απο τη ακριβως πιο πανω μεθοδο
-    //δεν ειμαι 100% σιγουρος θελει δουλεια --ειναι 200 αλλα επιστρεφει κενο αποτελεσμα
+    // ignore den xreiazetai paidia
     @GetMapping("{cooperative_id}/users")
     public List<User> getCooperativeUser(@PathVariable Integer cooperative_id) {
         return cooperativeService.getCooperative(cooperative_id).getUsers();
@@ -209,23 +199,13 @@ public class CooperativeRestController {
 
 
 
-
+    //θα βγει λογικά και επίσης θα βγει και το getCooperativeProducts και έφτιαξα στον Cooperative
+    //entity 2 τιμές product_name, product_category για να πληκτρολογεί απλά ο χρήστης το όνομα
+    //προιόντος και κατηγορία προιόντος
 
     //NOT OK -- eno fainetai na iparxoyn sto table (to cooperative_id μετα απο την χρηση
     //μεθοδου addProduct δεν μου φερνει τα προιοντα του)
-    @GetMapping("{cooperative_id}/products")
-    public List<Product> getCooperativeProducts(@PathVariable Integer cooperative_id) {
-        return cooperativeService.getCooperative(cooperative_id).getProducts();
-    }
 
-
-
-
-    //OK
-    @GetMapping("{cooperative_id}/cultivation_locations")
-    public List<CultivationLocation> getCooperativeCultivationLocations(@PathVariable Integer cooperative_id) {
-        return cooperativeService.getCooperative(cooperative_id).getCultivationLocations();
-    }
 
 
 
@@ -250,33 +230,50 @@ public class CooperativeRestController {
 
 
 
-    //OK MALLON -- stin database apothikeuetai kanonika to cooperative_id sto table Products
-    //apla sto postman βγαζει αυτο :
-    //POST http://localhost:9090/api/cooperative/api/products/8/5
-    //Error: aborted
-    //Request Headers
-    //Content-Type: application/json
-    //Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGwxMSIsImlhdCI6MTcwMzU5Nzc3OSwiZXhwIjoxNzAzNjg0MTc5fQ.VPEnajIBFY-xJ8bF2ftTlBGPwktY9mfAzxxNsskPEJX5uKUf7zJN6gjySxqRhlDek1mP839YEjVMUzjRR620iw
-    //User-Agent: PostmanRuntime/7.36.0
-    //Accept: */*
-    //Postman-Token: eb2e3ae6-14f4-482f-890f-764f2fe1d4a3
-    //Host: localhost:9090
-    //Accept-Encoding: gzip, deflate, br
-    //Connection: keep-alive
-    //Content-Length: 30
-    //Request Body
 
-    @PostMapping("/api/products/{cooperative_id}/{product_id}")
-    public List<Product> addProduct(@PathVariable Integer cooperative_id, @PathVariable Integer product_id, Model model) {
-        Cooperative cooperative = cooperativeService.getCooperative(cooperative_id);
-        Product product = productService.getProduct(product_id);
-        cooperative.addProduct(product);
-        cooperativeService.saveCooperative(cooperative);
-        product.setCooperative(cooperative);
-        productService.saveProduct(product);
-        model.addAttribute(cooperative);
-        model.addAttribute(productService.getProductsWithoutCooperative());
-        return cooperative.getProducts();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //
+
+    @GetMapping("/user/{user_id}/cooperatives")
+    public ResponseEntity<List<Cooperative>> getCooperativesForUser(@PathVariable Long user_id) {
+        List<Cooperative> cooperatives = cooperativeService.getCooperativesForUser(user_id);
+
+        if (!cooperatives.isEmpty()) {
+            return ResponseEntity.ok(cooperatives);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user/{user_id}/cooperatives/details")
+    public ResponseEntity<List<Cooperative>> getCooperativesDetailsForUser(@PathVariable Long user_id) {
+        List<Cooperative> cooperatives = cooperativeService.getCooperativesDetailsForUser(user_id);
+
+        if (!cooperatives.isEmpty()) {
+            return ResponseEntity.ok(cooperatives);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
@@ -284,20 +281,11 @@ public class CooperativeRestController {
 
 
 
-    //ok
 
-    @PostMapping("/api/cultivation_locations/{cooperative_id}/{cultivation_location_id}")
-    public List<CultivationLocation> addCultivationLocation(@PathVariable Integer cooperative_id, @PathVariable Integer cultivation_location_id,Model model) {
-        Cooperative cooperative = cooperativeService.getCooperative(cooperative_id);
-        CultivationLocation cultivationLocation = cultivationLocationService.getCultivationLocation(cultivation_location_id);
-        cooperative.addCultivationLocation(cultivationLocation);
-        cooperativeService.saveCooperative(cooperative);
-        cultivationLocation.setCooperative(cooperative);
-        cultivationLocationService.saveCultivationLocation(cultivationLocation);
-        model.addAttribute(cooperative);
-        model.addAttribute(cultivationLocationService.getCultivationLocationsWithoutCooperative());
-        return cooperative.getCultivationLocations();
-    }
+
+
+
+
 }
 
 
