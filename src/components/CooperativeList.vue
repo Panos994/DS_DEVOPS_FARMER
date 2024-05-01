@@ -1,5 +1,6 @@
 <template>
   <div class="user-list-scroll-container">
+    <h2>All Cooperatives:</h2>
     <div class="cooperatives-list">
       <table>
         <thead>
@@ -14,7 +15,7 @@
             <td>{{ cooperative.name }}</td>
             <td>{{ cooperative.vat }}</td>
             <td>
-              <router-link :to="{ name: 'CooperativeDetails', params: { id: cooperative.id } }">
+              <router-link class="link" :to="{ name: 'CooperativeDetails', params: { id: cooperative.id } }">
                 View Details
               </router-link>
             </td>
@@ -62,15 +63,21 @@ export default {
 
 
 <style scoped>
-/* Add your styles for the table here */
+
 .user-list-scroll-container {
-  overflow-y: auto;
-  max-height: 700px;
+  font-family: 'Inter', sans-serif;
+  width: 700px;
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
-.user-list-container {
+.cooperatives-list {
   margin: 20px auto;
-  max-width: 200px;
+  max-width: 700px;
+  overflow-y: auto;
+  max-height: 700px;
 }
 
 table {
@@ -85,9 +92,10 @@ thead {
   color: #fff;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 50px;
   text-align: left;
 }
 
@@ -103,13 +111,13 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-.router-link {
+.link {
   text-decoration: none;
-  color: #007bff;
+  color: #0077ff;
   cursor: pointer;
 }
 
-.router-link:hover {
+.link:hover {
   text-decoration: underline;
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h2>Fill the Form</h2>
-
-    <div class="cooperative-form-container">
+  <div class="container">
+    <h2>Fill in the Form</h2>
+    <div class="cooperative-form">
 
       <form @submit.prevent="saveCooperative">
 
@@ -26,11 +25,15 @@
 
         <div class="form-group">
           <label for="product_category">Product Category:</label>
-          <select v-model="cooperative.product_category" id="product_name" required>
-            <option value="fruits">Fruits</option>
+          <select v-model="cooperative.product_category" id="product_category" required>
             <option value="vegetables">Vegetables</option>
-            <option value="dairy">Dairy</option>
-            <option value="spices">Spices</option>
+            <option value="fruits">Fruits</option>
+            <option value="meat">Meat</option>
+            <option value="milk">Milk</option>
+            <option value="chocolate">Chocolate</option>
+            <option value="honey">Honey</option>
+            <option value="bread">Bread</option>
+            <option value="olive">Olive</option>
           </select>
         </div>
 
@@ -54,12 +57,12 @@
         <div class="form-group">
           <label for="members">Members:</label>
           <select v-model="cooperative.members" id="product_name" required>
-          <option value="1-5">1-5</option>
-          <option value="5-10">5-10</option>
-          <option value="10-20">10-20</option>
-          <option value="20-40">20-40</option>
-          <option value="40+">40+</option>
-        </select>
+            <option value="1-5">1-5</option>
+            <option value="5-10">5-10</option>
+            <option value="10-20">10-20</option>
+            <option value="20-40">20-40</option>
+            <option value="40+">40+</option>
+          </select>
         </div>
 
 
@@ -70,7 +73,7 @@
       </form>
 
       <strong>
-        <div v-if="submissionCompleted">Submission Completed</div>
+        <div v-if="submissionCompleted" class="success-message">Submission Completed</div>
       </strong>
     </div>
   </div>
@@ -118,14 +121,35 @@ export default {
 
 
 <style scoped>
-.cooperative-form-container {
-  border: 1px solid black;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  font-family: 'Inter', sans-serif;
+  width: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  border: 1px solid #ddd;
   border-radius: 10px;
+}
+
+.container>h2 {
+  padding: 10px;
+  color: #fff;
+  background-color: #41b883;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.cooperative-form {
   padding: 20px;
-  width: 35%;
-  /* Adjust the width as needed */
-  margin: 20px auto;
   background-color: #f8f9fa;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .main-header {
@@ -138,14 +162,30 @@ export default {
 }
 
 .saveButton {
+  width: 100%;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: #333;
+  font-size: 20px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+  transition: 0.3s;
   cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: #0056b3;
 }
 
 .form-group {
   margin-bottom: 15px;
+}
+
+.success-message {
+  display: block;
+  font-weight: 600;
+  margin-top: 20px;
 }
 
 label {
@@ -159,4 +199,13 @@ input {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-}</style>
+}
+select {
+  width: calc(100% - 12px);
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+</style>

@@ -110,12 +110,16 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles for the centering and table here */
-.cooperative-details {
-  max-width: 600px; /* Set a maximum width for the content */
-  margin: 20px auto; /* Center the content horizontally */
-  border-radius: 50px;
 
+.cooperative-details {
+  font-family: 'Inter', sans-serif;
+  width: 600px;
+  max-width: 600px;
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 50px;
 }
 
 table {
@@ -125,18 +129,23 @@ table {
 }
 
 thead {
-  background-color: darkgrey; /* Blue background for header */
-  color: #fff; /* White text for header */
+  background-color: darkgrey;
+  /* Blue background for header */
+  color: #fff;
+  /* White text for header */
 }
 
-th, td {
-  border: 1px solid #ddd; /* Add border for cells */
+th,
+td {
+  border: 1px solid #ddd;
+
   padding: 8px;
   text-align: left;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2; /* Alternate row color for better readability */
+  background-color: #f2f2f2;
+
 }
 
 strong {

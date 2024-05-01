@@ -6,14 +6,16 @@
 ## 2. files of src directory 
 
 
+##Run the application server from your IDE (port: 9090)
 
-
-## Project setup
+## Project setup frontend (port: 8080): open Intellij terminal or your OS terminal 
+# -->cd AgriculturalCooperatives --> cd frontend
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+## you are running the frontend project
 ```
 npm run serve
 ```

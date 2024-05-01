@@ -51,17 +51,33 @@ export default {
 
 <style scoped>
 .signup-container {
-  max-width: 400px;
+  font-family: 'Inter', sans-serif;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
   margin: 20px auto;
-  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
+}
+
+.signup-container>h1 {
+  padding: 10px;
+  color: #fff;
+  background-color: #41b883;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 0;
 }
 
 .signup-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 label {
@@ -72,18 +88,18 @@ label {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
 }
 
 .signUpButton {
   padding: 0.5rem 1rem;
+  margin-top: 15px;
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
   background-color: #007bff;
   border: none;
-  border-radius: 10px;
-  margin-top: 20px;
+  border-radius: 4px;
+  transition: 0.3s;
 }
 
 .signUpButton:hover {
@@ -91,9 +107,10 @@ label {
 }
 
 .success-message {
-  margin-top: 15px;
   display: block;
-  color: #28a745;
-  font-weight: bold;
+  font-weight: 600;
+  padding: 10px;
+  color: #41b883;
+  margin-bottom: 10px;
 }
 </style>

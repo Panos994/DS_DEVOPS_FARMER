@@ -4,12 +4,13 @@
 </template>
 
 <script>
-  // Trigger a page refresh
+// Trigger a page refresh
 </script>
 
 <style scoped>
-/* styles  navbar */
+/* styles of our navbar */
 .main-header {
+  font-family: 'Inter', sans-serif;
   background-color: #f8f9fa;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 10px 0;

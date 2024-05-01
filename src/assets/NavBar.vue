@@ -2,7 +2,7 @@
     <div>
         <header class="main-header">
             <div class="container">
-                
+
                 <button class="navbar-toggler" @click="toggleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,40 +20,32 @@
                         <li v-if="userRoles.includes(5)" class="nav-item">
                             <router-link class="nav-link" to="/cooperatives">Cooperatives</router-link>
                         </li>
-
                         <li v-if="userRoles.includes(4)" class="nav-item">
-                            <router-link class="nav-link" to="/your-cooperative/:id">Your Cooperative</router-link>
+                            <router-link class="nav-link" to="/your-cooperative/:id">My Cooperative</router-link>
                         </li>
-
-
-
-
-
-
                     </ul>
                 </div>
                 <div v-if="userRoles.length > 0" class="user-roles">
                     <p id="User_roles">User Roles: {{ userRoles.join(', ') }}</p>
-                    <button class="logout-button" @click="logout">Logout</button>
+                    <button class="logout-button" @click="logout"><span>Logout</span></button>
                 </div>
             </div>
         </header>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 
 export default {
     data() {
         return {
-            userRoles: [], // Store user roles
+            userRoles: [],
             isNavbarOpen: false,
-
         };
     },
 
     created() {
-        // Fetch user roles when the component is created
         this.fetchUserRole();
     },
 
@@ -74,7 +66,6 @@ export default {
                 });
         },
 
-
         async logout() {
             try {
                 const confirmed = window.confirm("Are you sure you want to logout?");
@@ -86,7 +77,6 @@ export default {
                 }
             } catch (error) {
                 console.error('Logout error:', error);
-                // Handle the error (e.g., show an error message)
             }
         },
 
@@ -97,21 +87,23 @@ export default {
 };
 </script>
 
-
 <style scoped>
-/* styles  navbar */
 .main-header {
-    background-color: #f8f9fa;
+    background-color: #41b883;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 10px 0;
-    position: sticky;
+    width: 100%;
+    position: fixed;
     top: 0;
-    /* Set the top position to 0 for sticking to the top */
+    left: 0;
     z-index: 100;
-    /* Set a higher z-index to make sure it's above other elements */
 }
 
 .container {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    margin-left: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -120,7 +112,7 @@ export default {
 .logo {
     font-weight: bold;
     font-size: 1.5rem;
-    color: #333;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -141,14 +133,13 @@ export default {
 
 .nav-link {
     text-decoration: none;
-    color: #333;
-    font-size: 1rem;
+    color: #fff;
     padding: 0.5rem 1rem;
     transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: #007bff;
+    color: #34495e;
 }
 
 .navbar-open {
@@ -156,19 +147,56 @@ export default {
 }
 
 .user-roles {
+    color: #fff;
     margin-left: auto;
     display: flex;
     align-items: center;
 }
 
 .logout-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    color: #333;
+    border-radius: 4px;
+    background-color: #34495e;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    width: 125px;
+    transition: all 0.5s;
     cursor: pointer;
+    margin-right: 40px;
+    margin-left: 40px;
 }
 
-#User_roles{
+.logout-button:hover {
+    background-color: #007bff;
+}
+
+.logout-button span {
+    cursor: pointer;
+    position: relative;
+    transition: 0.5s;
+}
+
+.logout-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: 10px;
+    transition: 0.5s;
+}
+
+.logout-button:hover span {
+    padding-right: 25px;
+}
+
+.logout-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+#User_roles {
     margin-right: 10px;
 }
 
@@ -187,7 +215,7 @@ export default {
         position: absolute;
         top: 60px;
         left: 0;
-        background-color: #fff;
+        background-color: #333;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         display: none;
     }
@@ -202,4 +230,3 @@ export default {
     }
 }
 </style>
-

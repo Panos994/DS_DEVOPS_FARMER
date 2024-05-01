@@ -1,13 +1,15 @@
 <template>
   <div class="login-container">
-    <h1>Agricultural Forms</h1>
-    <router-link to="/signup" class="signup-link">Sign Up</router-link>
+    <h1>Login</h1>
     <form @submit.prevent="loginUser" class="login-form">
       <label for="username">Username:</label>
       <input type="text" v-model="username" required class="input-field">
       <label for="password">Password:</label>
       <input type="password" v-model="password" required class="input-field">
       <button class="loginButton" type="submit">Login</button>
+      <div class="signup-link">
+        <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+      </div>
     </form>
   </div>
 </template>
@@ -58,37 +60,48 @@ export default {
 
 <style scoped>
 .login-container {
-  max-width: 400px;
+  font-family: 'Inter', sans-serif;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
   margin: 20px auto;
-  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
+  border-radius: 10px;
+}
+
+.login-container>h1 {
+  padding: 10px;
+  color: #fff;
+  background-color: #41b883;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 0;
 }
 
 
 .signup-link {
-  display: inline-block;
-  margin-top: 1px;
-  margin-bottom: 15px;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 5px; /* Adjust padding as needed */
-  border: 1px solid black;
-  border-radius: 10px; /* Adjust border-radius as needed */
-  border-color: black;
-  background-color: #007bff;
+  text-align: center;
 }
 
-.signup-link:hover {
-  background-color: green; /* Add a background color on hover for better visibility */
+.signup-link p a {
+  color: #308660;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-link p a:hover {
+  text-decoration: underline;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 label {
@@ -99,17 +112,18 @@ label {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
 }
 
 .loginButton {
   padding: 0.5rem 1rem;
+  margin-top: 15px;
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
   background-color: #007bff;
   border: none;
   border-radius: 4px;
+  transition: 0.3s;
 }
 
 .loginButton:hover {

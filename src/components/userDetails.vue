@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="details">
     <div class="user-details-box">
       <h1>User Details</h1>
       <p>Name: {{ userDetails.username }}</p>
@@ -44,12 +44,12 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            this.userDetails = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching user details', error);
-          });
+        .then(response => {
+          this.userDetails = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching user details', error);
+        });
     },
 
     addRolePrompt() {
@@ -78,13 +78,13 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            console.log('Role added successfully', response.data);
-            this.fetchUserDetails();
-          })
-          .catch(error => {
-            console.error('Error adding role to user', error);
-          });
+        .then(response => {
+          console.log('Role added successfully', response.data);
+          this.fetchUserDetails();
+        })
+        .catch(error => {
+          console.error('Error adding role to user', error);
+        });
     },
 
     deleteRole(userId, roleNumber) {
@@ -95,13 +95,13 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            console.log('Role deleted successfully', response.data);
-            this.fetchUserDetails();
-          })
-          .catch(error => {
-            console.error('Error deleting role from user', error);
-          });
+        .then(response => {
+          console.log('Role deleted successfully', response.data);
+          this.fetchUserDetails();
+        })
+        .catch(error => {
+          console.error('Error deleting role from user', error);
+        });
     },
 
     editUser() {
@@ -118,16 +118,16 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            console.log('User deleted successfully', response.data);
-            this.$router.push('/users');
-          })
-          .catch(error => {
-            console.error('Error deleting user', error);
-          });
+        .then(response => {
+          console.log('User deleted successfully', response.data);
+          this.$router.push('/users');
+        })
+        .catch(error => {
+          console.error('Error deleting user', error);
+        });
     },
 
-    
+
   },
 };
 </script>
@@ -135,24 +135,74 @@ export default {
 
 
 <style scoped>
-.user-details-box,
-.system-roles-box {
-  border: 1px solid #ccc; /* Border around each box */
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px; /* Add some space between the boxes */
-  display: inline-block; /* Make boxes inline to wrap content */
-  margin-right: 20px; /* Add margin between the boxes */
+.details {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  font-size: 18px;
 }
 
-/* Add your styles for buttons here */
+.user-details-box,
+.system-roles-box {
+  background-color: #f8f9fa;
+  /* Border around each box */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  /*   space between the boxes */
+  display: inline-block;
+  /*  boxes are inline kanoun wrapping to content */
+  /*  margin between the boxes */
+}
+
+
 .edit-button,
 .delete-button,
 .addRole,
 .deleteRole {
-  padding: 0.5rem 1rem;
+  padding: 10px;
+  margin-right: 10px;
   font-size: 1rem;
-  color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit-button {
+  background-color: #28a745;
+}
+
+.edit-button:hover {
+  background-color: #237e38;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #aa2b38;
+}
+
+.addRole {
+  background-color: #007bff;
+}
+
+.addRole:hover {
+  background-color: #0056b3;
+}
+
+.deleteRole {
+  background-color: #ffb507;
+}
+
+.deleteRole:hover {
+  background-color: #da9c0b;
 }
 </style>

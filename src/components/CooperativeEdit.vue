@@ -14,7 +14,7 @@
         <label for="product_category">Product Category:</label>
         <input v-model="cooperative.product_category" type="text" id="product_category" required>
 
-        <!-- Add other form fields for cooperative data as needed -->
+
 
         <button type="submit">Save</button>
       </form>
@@ -32,7 +32,7 @@ export default {
         name: '',
         vat: '',
         product_name: '',
-        // Add other properties as needed
+        //
       },
     };
   },
@@ -48,13 +48,13 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            // Pre-fill the form fields with existing data
-            this.cooperative = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching cooperative details', error);
-          });
+        .then(response => {
+          // Pre-fill  form fields me iparxonta dedomena
+          this.cooperative = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching cooperative details', error);
+        });
     },
     saveCooperative() {
       const accessToken = localStorage.getItem('jwt');
@@ -65,14 +65,14 @@ export default {
           'Content-Type': 'application/json',
         },
       })
-          .then(response => {
-            console.log('Cooperative saved successfully', response.data);
-            const cooperativeId = this.$route.params.id;
-            this.$router.push(`/cooperatives/${cooperativeId}`);
-          })
-          .catch(error => {
-            console.error('Error saving cooperative', error);
-          });
+        .then(response => {
+          console.log('Cooperative saved successfully', response.data);
+          const cooperativeId = this.$route.params.id;
+          this.$router.push(`/cooperatives/${cooperativeId}`);
+        })
+        .catch(error => {
+          console.error('Error saving cooperative', error);
+        });
     },
   },
 };
@@ -85,7 +85,16 @@ export default {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #f8f9fa; /* Light gray background */
+  background-color: #f8f9fa;
+  /* Light gray backGround */
+  font-family: 'Inter', sans-serif;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 18px;
 }
 
 .cooperative-form {
@@ -94,27 +103,37 @@ export default {
 }
 
 label {
-  margin-bottom: 8px;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
 input {
   padding: 8px;
   margin-bottom: 16px;
-  border: 1px solid #007bff; /* Blue border */
+  border: 1px solid #007bff;
+  /* Blue border */
   border-radius: 4px;
   outline: none;
+  font-size: 16px;
 }
 
 button {
+  margin-top: 10px;
   padding: 10px;
-  background-color: #007bff; /* Blue button */
-  color: #fff; /* White text */
+  background-color: #007bff;
+  /* Blue button */
+  color: #fff;
+  /* White text */
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+  font-size: 18px;
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
+  /* Darker blue  hover */
 }
 </style>

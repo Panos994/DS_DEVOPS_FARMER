@@ -1,20 +1,14 @@
 <template>
   <div class="form-container">
     <form @submit.prevent="updateUser" class="user-form">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input v-model="userDetails.username" type="text" id="username" required>
-      </div>
+      <label for="username">Username:</label>
+      <input v-model="userDetails.username" type="text" id="username" required>
 
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input v-model="userDetails.email" type="email" id="email" required>
-      </div>
+      <label for="email">Email:</label>
+      <input v-model="userDetails.email" type="email" id="email" required>
 
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input v-model="userDetails.password" type="password" id="password" required>
-      </div>
+      <label for="password">Password:</label>
+      <input v-model="userDetails.password" type="password" id="password" required>
 
       <button class="update-button" type="submit">Update</button>
     </form>
@@ -31,7 +25,7 @@ export default {
         username: '',
         email: '',
         password: '',
-        // Add other properties as needed
+
       },
     };
   },
@@ -47,13 +41,13 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            // Pre-fill the form fields with existing data
-            this.userDetails = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching user details', error);
-          });
+        .then(response => {
+          // Pre-fill the form fields with existing data
+          this.userDetails = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching user details', error);
+        });
     },
     updateUser() {
       const userId = this.$route.params.id;
@@ -65,14 +59,14 @@ export default {
           'Content-Type': 'application/json',
         },
       })
-          .then(response => {
-            console.log('User updated successfully', response.data);
-            // Redirect to the user details page or perform other actions
-            this.$router.push(`/users/${userId}`);
-          })
-          .catch(error => {
-            console.error('Error updating user', error);
-          });
+        .then(response => {
+          console.log('User updated successfully', response.data);
+          // Redirect to the user details page or perform other actions
+          this.$router.push(`/users/${userId}`);
+        })
+        .catch(error => {
+          console.error('Error updating user', error);
+        });
     },
   },
 };
@@ -81,29 +75,29 @@ export default {
 <style scoped>
 .form-container {
   max-width: 400px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  /* Light gray background */
+  font-family: 'Inter', sans-serif;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 18px;
 }
 
 .user-form {
-  padding: 16px;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
   margin-bottom: 16px;
-}
-
-/* Add your styles for the header here */
-.main-header {
-  background-color: #f8f9fa;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .update-button {
@@ -114,9 +108,25 @@ export default {
   background-color: #007bff;
   border: none;
   border-radius: 4px;
+  transition: 0.3s
 }
 
 .update-button:hover {
   background-color: #0056b3;
+}
+
+label {
+  margin-bottom: 15px;
+  font-weight: 600
+}
+
+input {
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #007bff;
+  /* Blue border */
+  border-radius: 4px;
+  outline: none;
+  font-size: 16px;
 }
 </style>

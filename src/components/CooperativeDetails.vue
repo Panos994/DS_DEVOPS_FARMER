@@ -6,7 +6,7 @@
     <p>Status: {{ cooperativeDetails.status }}</p>
     <p>Notes: {{ cooperativeDetails.notes }}</p>
 
-    <button class="editB" @click="editCooperative">Edit</button>
+    <!--button class="editB" @click="editCooperative">Edit</button-->
     <button class="deleteB" @click="deleteCooperative">Delete</button>
     <button class="approveB" @click="approveCooperative(cooperativeDetails.id)">Approve</button>
     <button class="rejectB" @click="rejectCooperative(cooperativeDetails.id)">Reject</button>
@@ -53,12 +53,12 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            this.cooperativeDetails = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching cooperative details', error);
-          });
+        .then(response => {
+          this.cooperativeDetails = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching cooperative details', error);
+        });
     },
 
     approveCooperative(cooperativeId) {
@@ -78,17 +78,17 @@ export default {
             'Content-Type': 'application/json',
           },
         })
-            .then(response => {
-              console.log('Cooperative approved successfully', response.data);
+          .then(response => {
+            console.log('Cooperative approved successfully', response.data);
 
-                this.fetchCooperativeDetails();
+            this.fetchCooperativeDetails();
 
 
 
-            })
-            .catch(error => {
-              console.error('Error approving cooperative', error);
-            });
+          })
+          .catch(error => {
+            console.error('Error approving cooperative', error);
+          });
       }
 
     },
@@ -110,15 +110,15 @@ export default {
             'Content-Type': 'application/json',
           },
         })
-            .then(response => {
-              console.log('Cooperative rejected successfully', response.data);
+          .then(response => {
+            console.log('Cooperative rejected successfully', response.data);
 
-                this.fetchCooperativeDetails();
+            this.fetchCooperativeDetails();
 
-            })
-            .catch(error => {
-              console.error('Error rejecting cooperative', error);
-            });
+          })
+          .catch(error => {
+            console.error('Error rejecting cooperative', error);
+          });
       }
 
     },
@@ -149,13 +149,13 @@ export default {
           'Authorization': 'Bearer ' + accessToken,
         },
       })
-          .then(response => {
-            console.log('Cooperative deleted successfully', response.data);
-            this.$router.push('/cooperatives');
-          })
-          .catch(error => {
-            console.error('Error deleting cooperative', error);
-          });
+        .then(response => {
+          console.log('Cooperative deleted successfully', response.data);
+          this.$router.push('/cooperatives');
+        })
+        .catch(error => {
+          console.error('Error deleting cooperative', error);
+        });
     },
 
     logout() {
@@ -176,7 +176,14 @@ div {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: lightgrey; /* Light gray background */
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .editB,
@@ -190,22 +197,42 @@ div {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .editB {
-  background-color: #28a745; /* Green for Edit */
+  background-color: #28a745;
+  /* Green for Edit */
+}
+
+.editB:hover {
+  background-color: #237e38;
 }
 
 .deleteB {
-  background-color: #dc3545; /* Red for Delete */
+  background-color: #dc3545;
+  /* Red for Delete */
+}
+
+.deleteB:hover {
+  background-color: #aa2b38;
 }
 
 .approveB {
-  background-color: #007bff; /* Blue for Approve */
+  background-color: #007bff;
+  /* Blue for Approve */
+}
+
+.approveB:hover {
+  background-color: #0056b3;
 }
 
 .rejectB {
-  background-color: #ffc107; /* Yellow for Reject */
+  background-color: #ffb507;
+  /* Yellow for Reject */
 }
 
+.rejectB:hover {
+  background-color: #da9c0b;
+}
 </style>

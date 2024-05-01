@@ -1,5 +1,6 @@
 <template>
   <div class="user-list-scroll-container">
+    <h2>List of Users:</h2>
     <div class="user-list-container">
       <table>
         <thead>
@@ -16,7 +17,7 @@
 
             <!-- Add other fields as needed -->
             <td>
-              <router-link :to="{ name: 'userDetails', params: { id: user.id } }">
+              <router-link class="link" :to="{ name: 'userDetails', params: { id: user.id } }">
                 View Details
               </router-link>
             </td>
@@ -62,21 +63,32 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles for the table here */
+
 .user-list-scroll-container {
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: 700px; /* Set a maximum height for the scroll container */
+  font-family: 'Inter', sans-serif;
+  width: 700px;
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .user-list-container {
-  margin: 20px auto; /* Center the table */
-  max-width: 600px; /* Set a maximum width for the table */
+  margin: 20px auto;
+
+  max-width: 700px;
+
+  overflow-y: auto;
+
+  max-height: 700px;
+
 }
 
 table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 10px;
+  margin: auto;
 }
 
 
@@ -90,33 +102,32 @@ thead {
 th,
 td {
   border: 1px solid #ddd;
-  /* Add border for cells */
-  padding: 8px;
+
+  padding: 50px;
   text-align: left;
 }
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
-  /* Alternate row color for better readability */
+
 }
 
 .label {
   background-color: #f8f9fa;
-  /* Light grey background for labels */
+
   padding: 2px 4px;
   border-radius: 4px;
   margin-right: 4px;
   font-weight: bold;
 }
 
-.router-link {
+.link {
   text-decoration: none;
-  color: #007bff;
-  /* Blue color for link text */
+  color: #0077ff;
   cursor: pointer;
 }
 
-.router-link:hover {
+.link:hover {
   text-decoration: underline;
 }
 </style>
